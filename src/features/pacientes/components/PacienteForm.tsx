@@ -55,16 +55,20 @@ export default function PacienteForm({ initial, onSubmit, onCancel }: Props) {
     setErrors({})
   }, [initial])
 
-  const title = useMemo(() => (isEdit ? "Editar paciente" : "Nuevo paciente"), [isEdit])
+  const title = useMemo(() => (isEdit ? "" : ""), [isEdit])
 
   function validate(): boolean {
     const e: Record<string, string> = {}
     if (!nombre.trim()) e.nombre = "El nombre es obligatorio."
     if (!apellido.trim()) e.apellido = "El apellido es obligatorio."
-    if (dni && onlyDigits(dni).length < 7) e.dni = "DNI inválido (mínimo 7 dígitos)."
-    if (email && !isEmail(email.trim().toLowerCase())) e.email = "Email inválido."
-    if (telefono && onlyDigits(telefono).length < 6) e.telefono = "Teléfono inválido."
-    if (fechaNacimiento && isNaN(+new Date(fechaNacimiento))) e.fechaNacimiento = "Fecha inválida."
+    if (!dni.trim()) e.dni = "El DNI es obligatorio."
+    else if (onlyDigits(dni).length < 7) e.dni = "DNI inválido (mínimo 7 dígitos)."
+    if (!email.trim()) e.email = "El email es obligatorio."
+    else if (email && !isEmail(email.trim().toLowerCase())) e.email = "Email inválido."
+    if (!telefono.trim()) e.telefono = "El teléfono es obligatorio."
+    else if (telefono && onlyDigits(telefono).length < 6) e.telefono = "Teléfono inválido."
+    if (!fechaNacimiento.trim()) e.fechaNacimiento = "La fecha de nacimiento es obligatoria."
+    else if (fechaNacimiento && isNaN(+new Date(fechaNacimiento))) e.fechaNacimiento = "Fecha inválida."
     if (obraSocial && obraSocial !== "Otra" && !OBRAS.includes(obraSocial as any)) e.obraSocial = "Obra social desconocida."
     if (obraSocial && obraSocial !== "" && !numeroAfiliado.trim()) e.numeroAfiliado = "N° de afiliado requerido."
     setErrors(e)
@@ -116,7 +120,7 @@ export default function PacienteForm({ initial, onSubmit, onCancel }: Props) {
       {/* DNI / Email / Teléfono */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <label className="flex flex-col gap-1">
-          <span className={lblCls}>DNI</span>
+          <span className={lblCls}>DNI *</span>
           <input
             className={fieldCls}
             inputMode="numeric"
@@ -128,7 +132,7 @@ export default function PacienteForm({ initial, onSubmit, onCancel }: Props) {
         </label>
 
         <label className="flex flex-col gap-1">
-          <span className={lblCls}>Email</span>
+          <span className={lblCls}>Email *</span>
           <input
             className={fieldCls}
             type="email"
@@ -140,7 +144,7 @@ export default function PacienteForm({ initial, onSubmit, onCancel }: Props) {
         </label>
 
         <label className="flex flex-col gap-1">
-          <span className={lblCls}>Teléfono</span>
+          <span className={lblCls}>Teléfono *</span>
           <input
             className={fieldCls}
             inputMode="tel"
@@ -155,7 +159,7 @@ export default function PacienteForm({ initial, onSubmit, onCancel }: Props) {
       {/* Fecha / Obra social / Afiliado */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <label className="flex flex-col gap-1">
-          <span className={lblCls}>Fecha de nacimiento</span>
+          <span className={lblCls}>Fecha de nacimiento *</span>
           <input
             className={fieldCls}
             type="date"

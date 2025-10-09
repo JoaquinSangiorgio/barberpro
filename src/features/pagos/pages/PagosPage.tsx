@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import type { Pago } from "../services/payments.api";
+import type { Pago, PacienteLite } from "../services/payments.api";
 import {
   listPagos,
   createPago,
   updatePago,
   deletePago,
-  listPacientes,
   createMPPreference,
-  type PacienteLite,
 } from "../services/payments.api";
+import { listPacientes, type Paciente } from "../../pacientes/services/pacientes.api";
 import PaymentDialog from "../components/PaymentDialog";
 import CountUp from "react-countup";
 import toast, { Toaster } from "react-hot-toast";
@@ -34,15 +33,25 @@ export default function PagosPage() {
     rejected: "bg-red-100 text-red-700",
   };
 
+  // 🔹 Cargar pacientes desde la API de pacientes
   async function loadPatients() {
     try {
-      const pacientes = await listPacientes();
-      setPatientsLite(pacientes);
+      const pacientes: Paciente[] = await listPacientes();
+
+      // Mapeamos a formato liviano que espera el componente de pagos
+      const pacientesLite: PacienteLite[] = pacientes.map((p) => ({
+        id: p.id,
+        nombre_completo: `${p.nombre} ${p.apellido}`,
+      }));
+
+      setPatientsLite(pacientesLite);
     } catch (e) {
+      console.error(e);
       toast.error("Error cargando pacientes ❌");
     }
   }
 
+  // 🔹 Cargar pagos
   async function refresh() {
     try {
       const pagos = await listPagos();
@@ -52,11 +61,13 @@ export default function PagosPage() {
     }
   }
 
+  // 🔄 Cargar datos al montar
   useEffect(() => {
     void refresh();
     void loadPatients();
   }, []);
 
+  // 🔹 Guardar o actualizar pago
   async function handleSave(p: Omit<Pago, "id"> | Pago) {
     try {
       if ("id" in p) {
@@ -74,6 +85,7 @@ export default function PagosPage() {
     }
   }
 
+  // 🔹 Eliminar pago
   async function handleDelete(id: number) {
     if (!confirm("¿Eliminar pago?")) return;
     try {
@@ -85,6 +97,7 @@ export default function PagosPage() {
     }
   }
 
+  // 🔹 Iniciar pago con Mercado Pago
   async function handlePayWithMP(p: Omit<Pago, "id">) {
     try {
       const pref = await createMPPreference({
@@ -99,6 +112,7 @@ export default function PagosPage() {
     }
   }
 
+  // 🔍 Filtro de búsqueda
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
     if (!s) return data;
@@ -117,7 +131,6 @@ export default function PagosPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Toasts */}
       <Toaster position="top-right" />
 
       {/* Header */}
