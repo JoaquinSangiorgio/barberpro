@@ -1,0 +1,19 @@
+# Dependencias
+node_modules
+dist
+
+# Secretos (Variables de entorno) - ESTOS SÍ VAN ACÁ
+.env
+.env.local
+.env.production
+server/.env
+serviceAccount.json
+
+# Logs y Debug
+.firebase-debug.log
+
+# Bases de datos locales de prueba
+db.json
+
+# Archivos de servidor (si no querés subirlos)
+server
