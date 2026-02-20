@@ -5,7 +5,7 @@ import { Pencil, Trash2, FileText } from "lucide-react";
 type Props = {
   data: Paciente[];
   onEdit: (p: Paciente) => void;
-  onDelete: (id: number) => void;
+  onDelete: (id: string) => void;
 };
 
 export default function PacientesTable({ data, onEdit, onDelete }: Props) {
@@ -102,7 +102,7 @@ export default function PacientesTable({ data, onEdit, onDelete }: Props) {
                     <button onClick={() => onEdit(p)} title="Editar">
                       <Pencil className="w-5 h-5 text-orange-500 hover:text-orange-600" />
                     </button>
-                    <button onClick={() => onDelete(p.id)} title="Borrar">
+                    <button onClick={() => onDelete((p.id))} title="Borrar">
                       <Trash2 className="w-5 h-5 text-red-500 hover:text-red-600" />
                     </button>
                     <Link to={`/pacientes/${p.id}/historial`} title="Historial">
