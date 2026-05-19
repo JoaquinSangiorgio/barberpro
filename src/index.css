@@ -45,3 +45,9 @@
   .input       { @apply w-full rounded-xl border border-black/10 bg-bg px-3 py-2 outline-none focus:border-brand; }
   .badge       { @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs bg-brand-muted text-textc; }
 }
+.body{
+  touch-action: manipulation;
+}
+input, select, textarea {
+  font-size: 16px !important; 
+}

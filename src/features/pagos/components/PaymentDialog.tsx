@@ -21,7 +21,7 @@ export default function PaymentDialog({
   onCancel,
   onPayWithMP,
 }: Props) {
- 
+  
   const [pacienteId, setPacienteId] = useState<string>(
     initial?.paciente_id ? String(initial.paciente_id) : (pacientes[0]?.id ? String(pacientes[0].id) : "")
   );
@@ -29,7 +29,11 @@ export default function PaymentDialog({
   const [fecha, setFecha] = useState(initial?.fecha ?? new Date().toISOString().split('T')[0]);
   const [metodo, setMetodo] = useState<string>(initial?.metodo ?? "Efectivo");
   const [concepto, setConcepto] = useState(initial?.concepto ?? "");
-  const [monto, setMonto] = useState(initial?.monto ?? 0);
+  
+  // 1. Manejamos el estado como string. Si es 0 o no existe, va vacío "" para activar el placeholder
+  const [monto, setMonto] = useState<string>(
+    initial?.monto ? String(initial.monto) : ""
+  );
   const [status, setStatus] = useState<Pago["status"]>(initial?.status ?? "approved");
 
   const statusLabels: Record<Pago["status"], string> = {
@@ -44,7 +48,8 @@ export default function PaymentDialog({
       setFecha(initial.fecha);
       setMetodo(initial.metodo);
       setConcepto(initial.concepto);
-      setMonto(initial.monto);
+      // 2. Al editar, convertimos el número a string. Si es 0, lo dejamos vacío
+      setMonto(initial.monto ? String(initial.monto) : "");
       setStatus(initial.status);
     }
   }, [initial]);
@@ -60,7 +65,8 @@ export default function PaymentDialog({
       fecha,
       metodo,
       concepto,
-      monto: Number(monto),
+      // 3. Al guardar, lo transformamos a Number de forma segura
+      monto: Number(monto) || 0,
       status,
     };
 
@@ -73,7 +79,6 @@ export default function PaymentDialog({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/80 backdrop-blur-sm z-50 p-4">
-      {/* Contenedor principal adaptado a Gris Ébano de Barbería */}
       <div className="bg-[#161920] rounded-3xl shadow-2xl w-full max-w-md border border-slate-800/80 overflow-hidden animate-in fade-in zoom-in duration-200 relative">
         <div className="absolute top-0 left-6 right-6 h-[2px] bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
 
@@ -132,8 +137,10 @@ export default function PaymentDialog({
                 </label>
                 <input
                   type="number"
+                  step="any"
                   value={monto}
-                  onChange={(e) => setMonto(Number(e.target.value))}
+                  // 4. Guardamos el valor crudo como string para que no moleste al escribir
+                  onChange={(e) => setMonto(e.target.value)}
                   placeholder="0.00"
                   required
                   className="w-full px-4 py-3 bg-[#12141a] border border-slate-800 rounded-2xl focus:border-amber-500 outline-none transition-all font-bold text-slate-200 text-sm placeholder:text-slate-700"

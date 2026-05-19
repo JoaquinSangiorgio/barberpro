@@ -62,21 +62,34 @@ export default function AppLayout() {
       {/* ── CONTENIDO PRINCIPAL ── */}
       <div className="flex-1 md:pl-64 flex flex-col">
 
-        {/* Header mobile — solo branding */}
-        <header className="sticky top-0 z-30 h-14 border-b border-slate-800/60 bg-[#161920] flex items-center justify-between px-5 md:hidden">
-          <span className="font-black text-amber-500 text-base tracking-tight uppercase">BarberPRO</span>
-          <button
-            onClick={handleLogout}
-            className="text-slate-500 hover:text-slate-300 transition-colors p-1"
-            aria-label="Cerrar sesión"
-          >
-            <LogOut size={18} />
-          </button>
+        {/* Header mobile — se expande hacia arriba para cubrir la muesca/notch */}
+        <header
+          className="sticky top-0 z-30 bg-[#161920] border-b border-slate-800/60 flex flex-col md:hidden"
+          style={{ paddingTop: 'env(safe-area-inset-top)' }}
+        >
+          <div className="h-14 flex items-center justify-between px-5">
+            <span className="font-black text-amber-500 text-base tracking-tight uppercase">BarberPRO</span>
+            <button
+              onClick={handleLogout}
+              className="text-slate-500 hover:text-slate-300 transition-colors p-1"
+              aria-label="Cerrar sesión"
+            >
+              <LogOut size={18} />
+            </button>
+          </div>
         </header>
 
-        {/* Outlet con padding inferior en mobile para dejar espacio a la tab bar */}
-        <main className="flex-1 pb-16 md:pb-0">
+        <main className="flex-1">
           <Outlet />
+          {/*
+            Espaciador mobile: 4rem (altura de la tab bar) + home indicator.
+            md:hidden lo elimina en desktop sin conflictos de especificidad.
+          */}
+          <div
+            className="md:hidden"
+            style={{ height: 'calc(4rem + env(safe-area-inset-bottom))' }}
+            aria-hidden="true"
+          />
         </main>
       </div>
 
@@ -84,33 +97,38 @@ export default function AppLayout() {
       <PWAPrompt />
 
       {/* ── BOTTOM TAB BAR MOBILE ── */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-[#161920] border-t border-slate-800/80 flex items-stretch h-16">
-        {items.map((item) => (
-          <NavLink key={item.to} to={item.to} end={item.end} className="flex-1">
-            {({ isActive }) => (
-              <div
-                className={`h-full flex flex-col items-center justify-center gap-0.5 transition-all duration-200 relative ${
-                  isActive ? "text-amber-400" : "text-slate-500 active:text-slate-300"
-                }`}
-              >
-                {/* Indicador activo — línea superior */}
-                {isActive && (
-                  <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-amber-400" />
-                )}
-
-                {/* Icono con fondo sutil cuando activo */}
-                <div className={`p-1.5 rounded-xl transition-colors ${isActive ? "bg-amber-500/10" : ""}`}>
-                  {item.icon}
+      {/*
+        La nav crece hacia abajo con paddingBottom = home indicator.
+        El color de fondo cubre hasta el borde de pantalla (viewport-fit=cover).
+        Los tabs viven en la fila interior h-16, siempre por encima del indicador.
+      */}
+      <nav
+        className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-[#161920] border-t border-slate-800/80"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+      >
+        <div className="h-16 flex">
+          {items.map((item) => (
+            <NavLink key={item.to} to={item.to} end={item.end} className="flex-1">
+              {({ isActive }) => (
+                <div
+                  className={`h-full flex flex-col items-center justify-center gap-0.5 transition-all duration-200 relative ${
+                    isActive ? "text-amber-400" : "text-slate-500 active:text-slate-300"
+                  }`}
+                >
+                  {isActive && (
+                    <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-amber-400" />
+                  )}
+                  <div className={`p-1.5 rounded-xl transition-colors ${isActive ? "bg-amber-500/10" : ""}`}>
+                    {item.icon}
+                  </div>
+                  <span className="text-[9px] font-black uppercase tracking-widest leading-none">
+                    {item.label}
+                  </span>
                 </div>
-
-                {/* Label */}
-                <span className="text-[9px] font-black uppercase tracking-widest leading-none">
-                  {item.label}
-                </span>
-              </div>
-            )}
-          </NavLink>
-        ))}
+              )}
+            </NavLink>
+          ))}
+        </div>
       </nav>
     </div>
   );
