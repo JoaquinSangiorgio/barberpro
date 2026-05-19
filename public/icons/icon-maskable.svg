@@ -1,0 +1,10 @@
+<!-- Maskable: full bleed background, content within 80% safe zone (inner 410x410, offset 51px) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#f59e0b"/>
+  <!-- All drawing within safe zone: 51..461 -->
+  <line x1="256" y1="110" x2="166" y2="300" stroke="#161920" stroke-width="32" stroke-linecap="round"/>
+  <line x1="256" y1="110" x2="346" y2="300" stroke="#161920" stroke-width="32" stroke-linecap="round"/>
+  <circle cx="256" cy="205" r="18" fill="#161920"/>
+  <circle cx="166" cy="300" r="50" fill="none" stroke="#161920" stroke-width="28"/>
+  <circle cx="346" cy="300" r="50" fill="none" stroke="#161920" stroke-width="28"/>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#f59e0b"/>
+  <!-- Scissor blades -->
+  <line x1="256" y1="100" x2="148" y2="310" stroke="#161920" stroke-width="36" stroke-linecap="round"/>
+  <line x1="256" y1="100" x2="364" y2="310" stroke="#161920" stroke-width="36" stroke-linecap="round"/>
+  <!-- Pivot -->
+  <circle cx="256" cy="210" r="22" fill="#161920"/>
+  <!-- Handles -->
+  <circle cx="148" cy="310" r="58" fill="none" stroke="#161920" stroke-width="32"/>
+  <circle cx="364" cy="310" r="58" fill="none" stroke="#161920" stroke-width="32"/>
+</svg>

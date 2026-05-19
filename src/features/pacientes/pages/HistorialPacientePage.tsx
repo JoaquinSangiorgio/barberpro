@@ -4,7 +4,7 @@ import { getHistorial, updateHistorial, Historial } from "../services/historial.
 import { listArchivos, uploadArchivo, deleteArchivo, Archivo } from "../services/archivos.api"
 import { getPaciente, Paciente } from "../services/pacientes.api"
 import OdontogramaGrid from "../odontograma/components/OdontogramGrid"
-import toast, { Toaster } from "react-hot-toast"; // ✅ Importación de notificaciones
+import toast, { Toaster } from "react-hot-toast";
 
 export default function HistorialPacientePage() {
   const { id } = useParams()

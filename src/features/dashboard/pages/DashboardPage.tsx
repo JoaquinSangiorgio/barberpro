@@ -140,24 +140,26 @@ export default function DashboardPage() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen bg-slate-50 flex flex-col">
-      {/* HEADER */}
-      <header className="w-full md:pl-64 bg-gradient-to-r from-sky-800 to-emerald-700 text-white shadow-xl">
-        <div className="max-w-7xl mx-auto px-8 py-14 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      {/* HEADER ADAPTADO A PALETA BARBER (SÓLO CAMBIO DE COLOR) */}
+      <header className="w-full md:pl-64 bg-[#161920] text-white shadow-xl border-b border-slate-800/40 relative overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-red-600 via-white to-blue-600 opacity-50" />
+        
+        <div className="max-w-7xl mx-auto px-8 py-14 flex flex-col md:flex-row md:items-center md:justify-between gap-6 relative z-10">
           <div className="space-y-2">
-            <h1 className="text-4xl font-black flex items-center gap-3 tracking-tight">
-              <Activity className="w-10 h-10 text-emerald-300" /> Resumen General
+            <h1 className="text-4xl font-black flex items-center gap-3 tracking-tight text-amber-500 uppercase">
+              <Activity className="w-10 h-10 text-amber-500 animate-pulse" /> Resumen General
             </h1>
-            <p className="text-emerald-100/80 font-medium">Control financiero y de agenda en tiempo real</p>
+            <p className="text-slate-400 font-medium">Control financiero y de agenda en tiempo real</p>
           </div>
-          <div className="bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20">
-            <span className="text-sm font-bold uppercase tracking-widest opacity-70 block mb-1">Fecha Actual</span>
-            <span className="text-lg font-black capitalize">{todayStr}</span>
+          <div className="bg-[#1d222e] px-6 py-3 rounded-2xl border border-slate-800 shadow-inner flex flex-col sm:flex-row items-center gap-2">
+            <span className="text-sm font-bold uppercase tracking-widest text-slate-400 block">Fecha Actual:</span>
+            <span className="text-lg font-black text-amber-400 capitalize">{todayStr}</span>
           </div>
         </div>
       </header>
 
-      {/* CONTENIDO */}
-      <main className="flex-1 p-8 space-y-10 max-w-7xl mx-auto w-full">
+      {/* CONTENIDO (RESPETANDO EL DISEÑO Y EL FONDO GRIS DETRÁS DE LAS CARDS) */}
+      <main className="flex-1 p-8 space-y-10 max-w-7xl mx-auto w-full bg-slate-50">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32 space-y-4">
             <div className="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
@@ -168,7 +170,7 @@ export default function DashboardPage() {
             {/* STATS CARDS */}
             <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               <StatCard
-                title="Pacientes"
+                title="Clientes"
                 value={<CountUp end={pacientes.length} />}
                 hint="Total base de datos"
                 icon={<Users className="h-7 w-7 text-sky-600" />}
@@ -180,7 +182,7 @@ export default function DashboardPage() {
                 icon={<DollarSign className="h-7 w-7 text-emerald-600" />}
               />
               <StatCard
-                title="Citas Pendientes"
+                title="Turnos pendientes"
                 value={<CountUp end={appointments.pendientesTotales ?? 0} />}
                 hint="Próximos turnos"
                 icon={<Clock3 className="h-7 w-7 text-amber-600" />}
@@ -228,7 +230,7 @@ export default function DashboardPage() {
             {/* BOTTOM SECTION */}
             <section className="grid gap-8 lg:grid-cols-3">
               <div className="lg:col-span-1">
-                <ChartCard title="📅 Resumen de Citas">
+                <ChartCard title="📅 Resumen de Turnos">
                   <div className="space-y-3 mt-4">
                     {FIXED_STATES.map((state) => {
                       const englishKey = Object.keys(STATUS_MAP).find(k => STATUS_MAP[k] === state);
@@ -248,41 +250,38 @@ export default function DashboardPage() {
               </div>
 
               <div className="lg:col-span-2">
-                <ChartCard title="🕒 Citas Próximas (Hoy y Adelante)">
+                <ChartCard title="🕒 Turnos Próximos (Hoy y Adelante)">
                   <div className="overflow-x-auto mt-4">
                     <table className="w-full text-left">
                       <thead>
                         <tr className="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
                           <th className="pb-4">Fecha</th> 
-                          <th className="pb-4">Paciente</th>
-                          <th className="pb-4">Práctica</th>
+                          <th className="pb-4">Cliente</th>
                           <th className="pb-4">Estado</th>
                           <th className="pb-4 text-right">Hora</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-50">
-          {(appointments.recentAppointments ?? []).map((c: any, i: number) => (
-            <tr key={i} className="group hover:bg-slate-50/50 transition-colors">
-     
-              <td className="py-4">
-                <span className="text-xs font-bold text-sky-600 bg-sky-50 px-2 py-1 rounded-md">
-                  {c.fecha}
-                </span>
-              </td>
-              <td className="py-4 font-bold text-slate-800">{c.paciente}</td>
-              <td className="py-4 text-sm text-slate-500 italic">{c.practica}</td>
-              <td className="py-4">
-                <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase" style={{ 
-                  backgroundColor: `${STATE_COLORS[STATUS_MAP[c.status] || 'Pendiente']}20`,
-                  color: STATE_COLORS[STATUS_MAP[c.status] || 'Pendiente']
-                }}>
-                  {STATUS_MAP[c.status] || c.status}
-                </span>
-              </td>
-              <td className="py-4 text-right font-black text-slate-400">{c.hora} hs</td>
-            </tr>
-          ))}
-        </tbody>
+                        {(appointments.recentAppointments ?? []).map((c: any, i: number) => (
+                          <tr key={i} className="group hover:bg-slate-50/50 transition-colors">
+                            <td className="py-4">
+                              <span className="text-xs font-bold text-sky-600 bg-sky-50 px-2 py-1 rounded-md">
+                                {c.fecha}
+                              </span>
+                            </td>
+                            <td className="py-4 font-bold text-slate-200">{c.paciente}</td>
+                            <td className="py-4">
+                              <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase" style={{ 
+                                backgroundColor: `${STATE_COLORS[STATUS_MAP[c.status] || 'Pendiente']}20`,
+                                color: STATE_COLORS[STATUS_MAP[c.status] || 'Pendiente']
+                              }}>
+                                {STATUS_MAP[c.status] || c.status}
+                              </span>
+                            </td>
+                            <td className="py-4 text-right font-black text-slate-400">{c.hora} hs</td>
+                          </tr>
+                        ))}
+                      </tbody>
                     </table>
                     {(!appointments.recentAppointments || appointments.recentAppointments.length === 0) && (
                       <div className="py-12 text-center text-slate-400 font-medium italic">

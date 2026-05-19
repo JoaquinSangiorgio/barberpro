@@ -17,7 +17,7 @@ export interface Paciente {
   nombre: string;
   apellido: string;
   dni?: string;
-  email: string;
+  email?: string;
   telefono?: string;
   created_at?: any;
   updated_at?: any;

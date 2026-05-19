@@ -100,13 +100,14 @@ export default function PacientesTable({ data, onEdit, onDelete }: Props) {
                 <td className="px-4 py-2">
                   <div className="flex justify-center gap-4">
                     <button onClick={() => onEdit(p)} title="Editar">
-                      <Pencil className="w-5 h-5 text-orange-500 hover:text-orange-600" />
+                      <Pencil className="w-5 h-5 text-orange-100 hover:text-orange-600" />
+                      <h2>AA</h2>
                     </button>
                     <button onClick={() => onDelete((p.id))} title="Borrar">
-                      <Trash2 className="w-5 h-5 text-red-500 hover:text-red-600" />
+                      <Trash2 className="w-5 h-5 text-red-700 hover:text-red-10000" />
                     </button>
                     <Link to={`/pacientes/${p.id}/historial`} title="Historial">
-                      <FileText className="w-5 h-5 text-emerald-500 hover:text-emerald-600" />
+                      <FileText className="w-5 h-5 text-emerald-500 hover:text-emerald-600"/>
                     </Link>
                   </div>
                 </td>

@@ -16,10 +16,10 @@ export default function Navbar() {
   const items = [
     { to: "/dashboard", label: "Dashboard", icon: <BarChart3 className="h-5 w-5" /> },
     { to: "/agenda", label: "Agenda", icon: <CalendarDays className="h-5 w-5" /> },
-    { to: "/pacientes", label: "Pacientes", icon: <Users className="h-5 w-5" /> },
+    { to: "/pacientes", label: "Clientes", icon: <Users className="h-5 w-5" /> },
     { to: "/pagos", label: "Pagos", icon: <DollarSign className="h-5 w-5" /> },
     { to: "/historial", label: "Historial", icon: <ClipboardList className="h-5 w-5" /> },
-    { to: "/stock", label: "Stock", icon: <ClipboardList className="h-5 w-5" /> },
+    { to: "/stock", label: "Inventario", icon: <ClipboardList className="h-5 w-5" /> },
   ];
 
   return (
@@ -27,7 +27,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-14">
         {/* Logo */}
         <Link to="/" className="text-lg font-semibold text-blue-600">
-          OdontoFlow
+          BarberPRO
         </Link>
 
         {/* Links Desktop */}
