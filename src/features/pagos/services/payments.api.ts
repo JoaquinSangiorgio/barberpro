@@ -12,16 +12,19 @@ import {
 } from "firebase/firestore";
 
 export type Pago = {
-  id: string; 
-  paciente_id: string; 
+  id: string;
+  paciente_id: string;
   paciente_nombre?: string;
   fecha: string;
   metodo: string;
   concepto: string;
   monto: number;
-  status: "approved" | "pending" | "rejected"; 
+  status: "approved" | "pending" | "rejected";
+  barbero?: string;
+  cerrado?: boolean;
+  cierre_id?: string;
   created_at?: any;
-  updated_at?: any; // Añadido para consistencia con updatePago
+  updated_at?: any;
 };
 
 export type PacienteLite = {
