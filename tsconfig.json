@@ -2,14 +2,14 @@
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "module": "NodeNext",
+    "module": "ESNext",
     "jsx": "react-jsx",
     "strict": true,
     "skipLibCheck": true,
     "noEmit": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Bundler",
     "paths": {
       "@/*": ["./src/*"]
     }

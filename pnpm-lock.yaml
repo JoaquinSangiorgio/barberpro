@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@fullcalendar/core':
+        specifier: ^6.1.20
+        version: 6.1.20
       '@fullcalendar/daygrid':
         specifier: ^6.1.19
         version: 6.1.20(@fullcalendar/core@6.1.20)
@@ -53,6 +56,9 @@ importers:
       recharts:
         specifier: ^3.1.2
         version: 3.8.1(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.6)(react@18.3.1)(redux@5.0.1)
+      workbox-window:
+        specifier: ^7.4.1
+        version: 7.4.1
     devDependencies:
       '@types/node':
         specifier: ^24.2.1
